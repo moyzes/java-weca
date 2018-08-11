@@ -12,15 +12,18 @@ import weka.core.Instances;
 @Service
 public class LeArff {
 	
-	public void arffReader() throws IOException {
+	public String arffReader() throws IOException {
 		
+		StringBuilder sb = new StringBuilder();
 		FileReader reader = new FileReader("C:\\Program Files (x86)\\Weka-3-7\\data\\iris.arff");
 		Instances instances = new Instances(reader);
 		
 		// Get the relation name.
+		sb.append(instances.relationName() + "\n");
 		System.out.println(instances.relationName());
 		
-		// Get the number of attributes. 
+		// Get the number of attributes.
+		sb.append(instances.numAttributes() + " attributes \n");
 		System.out.println(instances.numAttributes() + " attributes");
 		
 		// Show the attributes. 
@@ -39,17 +42,24 @@ public class LeArff {
 					break;
 			}
 			
-			System.out.println(name + " type " + typeName); 
+			sb.append(name + " type " + typeName + "\n");
+			System.out.println(name + " type " + typeName);
+			
 		}
 		
 		for(int i=0; i<instances.numInstances(); i++) { 
 			
 			Instance instance = instances.instance(i); 
 			
-			// ugh 
+			// ugh
+			sb.append((i+1) + ": " 
+					+ instance + " missing? " 
+					+ instance.hasMissingValue() + "\n");
 			System.out.println((i+1) + ": " 
 					+ instance + " missing? " 
 					+ instance.hasMissingValue()); 
-		} 
+		}
+		
+		return sb.toString(); 
 	}
 }
